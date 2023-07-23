@@ -1,0 +1,27 @@
+class Solution {
+    int maxLen = 0;
+    int startIdx = 0;//starting index of the longest palindrome
+    public String longestPalindrome(String s) {
+        char[] input = s.toCharArray();
+        if(s.length() < 2) { //if length is smaller than 2 it would be like ab ba cc or something and it is a palindrome
+            return s;
+        }
+        
+        for(int i = 0; i<input.length; i++) {
+            expandPalindrome(input, i, i);//abba
+            expandPalindrome(input, i, i+1);//abba
+        }
+        return s.substring(startIdx, startIdx+maxLen);
+    }
+    
+    public void expandPalindrome(char[] s, int j, int k) {
+        while(j >= 0 && k < s.length && s[j] == s[k]) {
+            j--;
+            k++;
+        }
+        if(maxLen < k - j - 1) {//(k - 1) - (j + 1) + 1
+            maxLen = k - j - 1;
+            startIdx = j+1;
+        }
+    }
+}
